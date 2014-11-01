@@ -58,6 +58,14 @@
             (refresh-page)
             (.val description-textbox "")))))
 
+  (.on ($ js/document) "keydown" "input"
+        (fn [event]
+          (let [form (.parent ($ (aget event "target")))
+                button (.find form "button")
+                keycode (aget event "keyCode")]
+            (when (= keycode 13)
+              (.click button)))))
+
   (.on ($ js/document) "change" ".move-task-select"
         (fn [event]
           (let [to-list-name (.val ($ (aget event "target")))
