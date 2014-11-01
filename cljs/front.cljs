@@ -16,12 +16,12 @@
   [:div {:class "task" :data-task-id (:id task) :data-task-list-name my-task-list-name}
    (:description task)
    [:div {:class "form-inline"}
-    "Move to task list: "
-     [:select {:class "move-task-select"}
-      (for [[list-name task-list] task-lists]
-        [:option {:value list-name
-                  :selected (= my-task-list-name list-name)}
-        list-name])]]])
+    [:label {:for "move-task-select"} "Move to: "]
+    [:select {:class "move-task-select" :name "move-task-select"}
+     (for [[list-name task-list] task-lists]
+       [:option {:value list-name
+                 :selected (= my-task-list-name list-name)}
+       list-name])]]])
 
 (hiccups/defhtml render-tasks [tasks my-task-list-name task-lists]
   [:div {:class "tasks"}
