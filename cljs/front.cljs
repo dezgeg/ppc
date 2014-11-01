@@ -30,7 +30,6 @@
 
 (ready
   (refresh-page)
-  (log ($ :#add-task-button))
   (bind ($ :#add-task-button) "click"
         (fn [event]
             (let [description-textbox ($ "[name='description']")]
@@ -39,4 +38,13 @@
                   :contentType "application/edn"
                   :type "POST"}]
               (refresh-page)
-              (.val description-textbox ""))))))
+              (.val description-textbox "")))))
+  (bind ($ :#add-task-list-button) "click"
+        (fn [event]
+            (let [name-textbox ($ "[name='name']")]
+              (let-ajax [_ {:url "/api/task-lists"
+                  :data {:task-list {:name (.val name-textbox)}}
+                  :contentType "application/edn"
+                  :type "POST"}]
+              (refresh-page)
+              (.val name-textbox ""))))))

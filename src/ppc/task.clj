@@ -7,9 +7,9 @@
 (defn create-task [task]
   {:description (:description task)})
 
-(defn add-task-list [list-name board]
-  (assoc board
-         list-name
+(defn add-task-list [board list-name]
+  (assoc-in board
+         [:task-lists list-name]
          []))
 
 (defn create-task-board []
@@ -22,5 +22,5 @@
 
 (def example-task-board
   (let [empty-board (create-task-board)
-        with-list (add-task-list "sample-list" empty-board)]
+        with-list (add-task-list empty-board "sample-list")]
     (add-task-to-list with-list "sample-list" exampletask)))
