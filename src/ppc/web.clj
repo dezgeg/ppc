@@ -19,8 +19,14 @@
        {:status 200
         :body @task-board})
   (POST "/api/tasks" [task task-list]
-        (println task-list)
-        (swap! task-board #(add-task-to-list % (:name task-list) (create-task task)))
+        (swap! task-board #(add-task-to-list % (:name task-list) (create-task (:description task))))
+        {:status 200
+         :body "OK"})
+  (POST "/api/tasks/move" [task-id board from-list-name to-list-name]
+        (swap! task-board #(move-task :board %
+                                      :from-list-name from-list-name
+                                      :to-list-name to-list-name
+                                      :task-id task-id))
         {:status 200
          :body "OK"})
   (POST "/api/task-lists" [task-list]
