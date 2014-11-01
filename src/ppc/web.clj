@@ -19,6 +19,10 @@
   (GET "/api/tasks" []
        {:status 200
         :body @tasks})
+  (POST "/api/tasks" [task]
+       (swap! tasks #(conj % (task/create-task task)))
+       {:status 200
+        :body "OK"})
   (GET "*" []
        (route/resources "/"))
   (route/not-found "Not Found"))
