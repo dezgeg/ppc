@@ -61,7 +61,7 @@
   (.on ($ js/document) "change" ".move-task-select"
         (fn [event]
           (let [to-list-name (.val ($ (aget event "target")))
-                task-div (.parent ($ (aget event "target")))
+                task-div (.parent (.parent ($ (aget event "target"))))
                 from-list-name (.data task-div "task-list-name")
                 task-id (.data task-div "task-id")]
             (let-ajax [_ {:url "/api/tasks/move"
