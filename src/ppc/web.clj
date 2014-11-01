@@ -10,8 +10,6 @@
 
 (def task-board (atom example-task-board))
 
-(def list-name "sample-list")
-
 (defroutes app-routes
   (GET "/" [] 
        {:status 200
@@ -20,10 +18,11 @@
   (GET "/api/tasks" []
        {:status 200
         :body @task-board})
-  (POST "/api/tasks" [task]
-       (swap! task-board #(add-task-to-list % list-name (create-task task)))
-       {:status 200
-        :body "OK"})
+  (POST "/api/tasks" [task task-list]
+        (println task-list)
+        (swap! task-board #(add-task-to-list % (:name task-list) (create-task task)))
+        {:status 200
+         :body "OK"})
   (POST "/api/task-lists" [task-list]
        (println (pr-str @task-board))
        (swap! task-board #(add-task-list % (:name task-list)))
