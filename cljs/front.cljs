@@ -7,26 +7,28 @@
             [hiccups.runtime :as hiccupsrt]))
 
 (hiccups/defhtml render-add-task-form [list-name]
-  [:div {:class "add-task-form" :data-task-list list-name}
+  [:div {:class "add-task-form form-inline" :data-task-list list-name}
     [:label {:for "description"} "Description:"]
     [:input {:name "description" :type "text"}]
-    [:button {:class "add-task-button"} "Add task"]])
+    [:button {:class "add-task-button btn btn-default"} "Add task"]])
 
 (hiccups/defhtml render-task [task my-task-list-name task-lists]
   [:div {:class "task" :data-task-id (:id task) :data-task-list-name my-task-list-name}
    (:description task)
-   [:select {:class "move-task-select"}
-    (for [[list-name task-list] task-lists]
-      [:option {:value list-name
-                :selected (= my-task-list-name list-name)}
-       list-name])]])
+   [:div {:class "form-inline"}
+    "Move to task list: "
+     [:select {:class "move-task-select"}
+      (for [[list-name task-list] task-lists]
+        [:option {:value list-name
+                  :selected (= my-task-list-name list-name)}
+        list-name])]]])
 
 (hiccups/defhtml render-tasks [tasks my-task-list-name task-lists]
   [:div {:class "tasks"}
    (map #(render-task % my-task-list-name task-lists) tasks)])
 
 (hiccups/defhtml render-task-list [[list-name task-list] task-lists]
-  [:div {:class "task-list"}
+  [:div {:class "task-list col-md-4"}
    [:h3 (str "list: " list-name)]
    (render-tasks task-list list-name task-lists)
    (render-add-task-form list-name)])
