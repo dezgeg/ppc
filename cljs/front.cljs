@@ -11,14 +11,18 @@
    (:description task)])
 
 (hiccups/defhtml render-tasks [tasks]
-  [:h2 "Tasks"]
   [:div {:class "tasks"}
    (map render-task tasks)])
 
-(hiccups/defhtml tasks-page [tasks]
+(hiccups/defhtml render-task-list [[list-name task-list]]
+  [:div {:class "task-list"}
+   [:h3 (str "list: " list-name)]
+   (render-tasks task-list)])
+
+(hiccups/defhtml tasks-page [task-board]
+  [:h2 "Tasks"]
   [:div
-   (render-tasks tasks)]
-)
+   (map render-task-list (:task-lists task-board))])
 
 (defn refresh-page []
   (let-ajax [tasks {:url "/api/tasks"}]

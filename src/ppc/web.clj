@@ -6,10 +6,11 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.format :refer [wrap-restful-format]]
             [environ.core :refer [env]]
-            [ppc.task :as task]))
+            [ppc.task :refer :all]))
 
-(def tasks (atom [task/exampletask
-                  task/exampletask]))
+(def task-board (atom example-task-board))
+
+(def list-name "sample-list")
 
 (defroutes app-routes
   (GET "/" [] 
@@ -18,9 +19,9 @@
         :body (slurp (io/resource "index.html"))})
   (GET "/api/tasks" []
        {:status 200
-        :body @tasks})
+        :body @task-board})
   (POST "/api/tasks" [task]
-       (swap! tasks #(conj % (task/create-task task)))
+       (swap! task-board #(add-task-to-list % list-name (create-task task)))
        {:status 200
         :body "OK"})
   (GET "*" []
