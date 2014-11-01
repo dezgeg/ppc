@@ -24,10 +24,10 @@
         {:status 200
          :body "OK"})
   (POST "/api/task-lists" [task-list]
-       (println (pr-str @task-board))
-       (swap! task-board #(add-task-list % (:name task-list)))
-       {:status 200
-        :body "OK"})
+        (println (pr-str @task-board))
+        (swap! task-board #(add-task-list % (:name task-list)))
+        {:status 200
+         :body "OK"})
   (GET "*" []
        (route/resources "/"))
   (route/not-found "Not Found"))
